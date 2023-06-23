@@ -1,3 +1,4 @@
+<html lang="en">
 <head>
 
     <meta charset="utf-8">
@@ -58,3 +59,745 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon_io/favicon-16x16.png">
     <link rel="manifest" href="/static/img/favicon_io/site.webmanifest">
 </head>
+
+<body id="page-top">
+
+<div id="mobile-indicator"></div>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container-fluid">
+        <a class="navbar-brand js-scroll-trigger" href="">
+
+            <i class="icon-logo-sm fa-sm"></i>
+        </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item mobile-mt-2">
+                    <a class="nav-link js-scroll-trigger" href="/blog">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/music">Music</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/web-design">Web</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/audio-engineering">Audio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/resume">Resume</a>
+                </li>
+                <li class="nav-item mobile-mb-2">
+                    <a class="nav-link js-scroll-trigger" href="/#contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<input type="hidden" name="csrfmiddlewaretoken"
+       value="tU4Q5ThWBBZB9iEIKtJmPjKIejoAs7pkNRGsWzJhlJFmyqGoqE64RqEFcy41ZPTF">
+
+
+<input type="hidden" name="csrfmiddlewaretoken"
+       value="tU4Q5ThWBBZB9iEIKtJmPjKIejoAs7pkNRGsWzJhlJFmyqGoqE64RqEFcy41ZPTF">
+
+<link href="/static/css/image-viewer.css?v=1.0.5" rel="stylesheet">
+
+<style>
+
+        .masthead-image {
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+            url(/media/backgrounds/2020/10/16/dropzone-bg.jpg);
+        }
+
+
+        @media (max-width: 1400px) {
+            body {
+                background-color: #fff !important;
+            }
+
+            .card {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            #blog, #disqus_thread, .tag-margin {
+                padding: 0;
+                margin-left: 1rem!important;
+                margin-right: 1rem!important;
+                margin-bottom: 0;
+            }
+
+            #tags, .tag-margin {
+                margin-bottom: 0 !important;
+            }
+
+            .social-hr {
+                margin-left: 1rem !important;
+                margin-right: 1rem !important;
+            }
+        }
+
+        body {
+            background-color: #f9f9f9;
+        }
+
+        #blog ul li {
+            list-style-type: disc;
+            display: list-item;
+        }
+
+        .btn-secondary {
+            color: #fff !important;
+            background-color: var(--color-primary-2, black);
+            border-color: var(--color-primary-2, black);
+        }
+
+        #blog, #disqus_thread, .tag-margin {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag-margin ul {
+            -webkit-padding-start: 0;
+        }
+
+        #tags li {
+            display: inline;
+        }
+
+        pre {
+            line-height: 1.2em;
+            background-color: #e6e6e6;
+            background-size: 2.4em 2.4em;
+            background-origin: content-box;
+
+            /* some extra styles*/
+            padding: 10px 20px;
+            text-align: justify;
+            font-family: calibri, arial, sans-serif;
+        }
+
+        img {
+            display: block;
+            max-width: 80%;
+            max-height: 60vh;
+            height: auto;
+            width: auto;
+            box-shadow: 0.1rem 0.1rem .3rem 0.1rem rgba(0, 0, 0, 0.15) !important;
+            margin-bottom: 2rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 992px) {
+            header.masthead {
+                height: 100% !important;
+            }
+        }
+
+        #content {
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card {
+            padding: 30px;
+            box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.05);
+            margin-bottom: 4rem;
+            border: none;
+            border-radius: 0;
+        }
+
+        blockquote {
+            color: #777;
+            margin-left: 2px;
+            padding-left: 10px;
+            border-left: 5px solid #ddd;
+        }
+
+        hr {
+            max-width: unset;
+            border-width: 1px;
+            border-color: lightgray;
+            margin: 0;
+        }
+
+        .link-no-underline {
+            text-decoration: none !important;
+        }
+
+        .social-hr {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .social-margin {
+            margin-bottom: 0 !important;
+        }
+
+        .sim-img {
+            margin-bottom: 1rem;
+        }
+
+</style>
+
+<header class="masthead masthead-image text-center text-white d-flex" id="mastheadPic">
+    <div class="container my-auto">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <h1 style="font-family: 'Fira Code', Impact, sans-serif">
+                    Django Multiple Image Upload with Dropzone.js
+                </h1>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div id="content">
+
+    <div class="row no-gutters tag-margin social-margin">
+        <div class="col-6">
+            <p class="text-muted mt-1">Oct 16, 2020</p>
+        </div>
+        <div class="col-6 social text-right">
+            <a class="link-no-underline" href="" id="facebookShareLink">
+                <span class="fa-stack fa-1x">
+                    <i class="fas fa-circle fa-stack-2x" style="color: #3b5998"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+
+            <a class="link-no-underline"
+               href="https://twitter.com/share?url=https://www.existenceundefined.com/blog/13/&amp;text=Django Multiple Image Upload with Dropzone.js">
+                <span class="fa-stack fa-1x">
+                    <i class="fas fa-circle fa-stack-2x" style="color: #1da1f2"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+
+            <a class="link-no-underline"
+               href="http://www.reddit.com/submit?url=https://www.existenceundefined.com/blog/13/&amp;title=Django Multiple Image Upload with Dropzone.js">
+                <span class="fa-stack fa-1x">
+                    <i class="fas fa-circle fa-stack-2x" style="color: #ff4500"></i>
+                    <i class="fab fa-reddit fa-stack-1x fa-inverse"></i>
+                </span>
+            </a>
+
+        </div>
+
+    </div>
+
+    <hr class="social-hr">
+
+    <div class="tag-margin">
+        <ul id="tags">
+
+            <li>
+                <a href="/blog/?q=HTML"><span class="badge badge-secondary">HTML</span></a>
+            </li>
+
+            <li>
+                <a href="/blog/?q=Django"><span class="badge badge-secondary">Django</span></a>
+            </li>
+
+            <li>
+                <a href="/blog/?q=Python"><span class="badge badge-secondary">Python</span></a>
+            </li>
+
+            <li>
+                <a href="/blog/?q=Javascript"><span class="badge badge-secondary">Javascript</span></a>
+            </li>
+
+            <li>
+                <a href="/blog/?q=AJAX"><span class="badge badge-secondary">AJAX</span></a>
+            </li>
+
+        </ul>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- The Close Button -->
+        <span class="img-close">×</span>
+
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content" id="modal-image">
+
+        <!-- Modal Caption (Image Text) -->
+        <div id="caption"></div>
+    </div>
+
+    <div class="card mb-5">
+        <div>
+            <div id="blog">
+                <p class="card-text" id="post"></p>
+                <p>The easiest solution I have found to upload multiple images has been Dropzone.js. This is the second
+                    time I have implemented it in a Django app and I always end up customizing it a bit because I like
+                    the idea of only uploading when the user hits "submit." It's relatively straightforward, but
+                    required a bit of work in Django, JavaScript (jQuery here), HTML, and CSS.</p>
+                <h2>The Photo model:</h2>
+                <pre><code>class Photo(ObjUserRelation):
+    photo = models.ImageField(upload_to=saved_image_path)
+    photo_compressed = models.ImageField(upload_to=saved_thumb_path, editable=False)
+    thumbnail = models.ImageField(upload_to=saved_thumb_path, editable=False)
+
+    def save(self, *args, **kwargs):
+
+        if not self.make_thumbnail():
+            # set to a default thumbnail
+            raise Exception('Could not create thumbnail - is the file type valid?')
+
+        if not self.make_thumbnail(small=True):
+            # set to a default thumbnail
+            raise Exception('Could not create thumbnail - is the file type valid?')
+
+        super(Photo, self).save(*args, **kwargs)
+
+    def make_thumbnail(self, small=False):
+        return make_thumbnail(self, small)
+</code></pre>
+                <p>I am setting custom locations for the files with:</p>
+                <pre><code>def saved_directory_path(instance, filename, root):
+    now_time = datetime.now()
+    current_day = now_time.day
+    current_month = now_time.month
+    current_year = now_time.year
+    return '{root}/{year}/{month}/{day}/{user}/{random}/{filename}'.format(root=root,
+                                                                           year=current_year,
+                                                                           month=current_month,
+                                                                           day=current_day,
+                                                                           user=instance.user.username,
+                                                                           random=get_random_string(),
+                                                                           filename=filename, )
+
+
+def saved_image_path(instance, filename):
+    return saved_directory_path(instance, filename, 'profile/images')
+
+
+def saved_thumb_path(instance, filename):
+    return saved_directory_path(instance, filename, 'profile/thumbs')
+</code></pre>
+                <p>To create thumbnails (for quicker loading), I am using Pillow (<code>pip install Pillow</code>) and
+                    call <code>make_thumbnail</code> in <code>Photo</code>'s <code>save</code> method:</p>
+                <pre><code>def make_thumbnail(self, small=False):
+    thumb_name, thumb_extension = os.path.splitext(self.photo.name)
+    thumb_extension = thumb_extension.lower()
+
+    image = Image.open(self.photo)
+
+    if small:
+        image.thumbnail(settings.THUMB_SIZE, Image.ANTIALIAS)
+        thumb_filename = thumb_name + '_thumb' + thumb_extension
+
+    else:
+        image.thumbnail((700, 700), Image.ANTIALIAS)
+        thumb_filename = thumb_name + '_compressed' + thumb_extension
+
+    if thumb_extension in ['.jpg', '.jpeg']:
+        FTYPE = 'JPEG'
+    elif thumb_extension == '.gif':
+        FTYPE = 'GIF'
+    elif thumb_extension == '.png':
+        FTYPE = 'PNG'
+    else:
+        return False  # Unrecognized file type
+
+    # Save thumbnail to in-memory file as StringIO
+    temp_thumb = BytesIO()
+    image.save(temp_thumb, FTYPE, quality=70)
+    temp_thumb.seek(0)
+
+    if small:
+        # set save=False, otherwise it will run in an infinite loop
+        self.thumbnail.save(thumb_filename, ContentFile(temp_thumb.read()), save=False)
+    else:
+        self.photo_compressed.save(thumb_filename, ContentFile(temp_thumb.read()), save=False)
+    temp_thumb.close()
+
+    return True
+</code></pre>
+                <h2>The View:</h2>
+                <p>The website I created is basically a social media site like Facebook, so I am uploading the images in
+                    the post request when the user creates a post:</p>
+                <pre><code>class Posts(LoginRequiredMixin, views.APIView):
+    http_method_names = ['get', 'post', 'delete']
+
+    def post(self, request):
+        body = request.POST.get('body', "")
+        images = request.FILES.get('file[0]', None)
+
+        if body or images:
+            author = request.user
+            post = SocialMediaPost()
+            post.body = body
+            post.author = author
+            post.datetime_created = timezone.now()
+            post.save()
+
+            files = [request.FILES.get('file[%d]' % i) for i in range(0, len(request.FILES))]
+
+            for image in files:
+                photo = Photo(photo=image, user=request.user, obj_type='post', obj_id=post.pk)
+                photo.save()
+
+        return JsonResponse({'message': 'Post created'}, status=200)
+</code></pre>
+                <p>If <code>files = [request.FILES.get('file[%d]' % i) for i in range(0, len(request.FILES))]</code>
+                    looks a bit strange, that's because of the way Dropzone.js submits the form data. it took me some
+                    trial, error, and a lot of debugging to figure out the format.</p>
+                <h2>The template:</h2>
+                <p>My post form is relatively simple; a textarea, the dropzone button, and the submit button. Now that I
+                    think of it, I'm not sure if drag and drop works, but you can ignore my customization with the font
+                    awesome icon and use the default if you want that.</p>
+                <pre><code>    &lt;div class="container post-container pt-1"&gt;
+
+        &lt;div class="card shadow bg-white mt-3 mb-3"&gt;
+            &lt;div class="card-body"&gt;
+                &lt;form action="{% url 'posts' %}" method="POST" class="post-form" enctype="multipart/form-data"
+                      id="post-form"&gt;{% csrf_token %}
+                    &lt;textarea class="form-control" placeholder="What's going on?" id="post-form-body"
+                              name="body"&gt;&lt;/textarea&gt;
+                    &lt;div class="row pt-3"&gt;
+                        &lt;div class="col align-middle"&gt;
+                            &lt;div class="dropzone dropzone-file-area" id="fileUpload"&gt;
+                                &lt;div class="dz-default dz-message"&gt;
+                                    &lt;span id="images" class="far fa-images mb-3" data-toggle="tooltip"
+                                          title="Add Photos"&gt;&lt;/span&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;input id="images" name="file" type="file" multiple hidden="hidden"&gt;
+                        &lt;/div&gt;
+                        &lt;div class="col-1 ml-auto"&gt;
+                            &lt;button id="submit-all" type="submit" class="save btn btn-primary float-right"&gt;Submit
+                            &lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/form&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+</code></pre>
+                <h2>The Script</h2>
+                <p>Dropzone by default uploads asynchronously as the user adds photos. That's cool, but harder to deal
+                    with (what if they don't create the post, how do I keep track of the relationship to the post?), so
+                    I decided to upload the images with the post. That unfortunately means I need to prevent default
+                    action (<code>.preventDefault()</code>) when the submit button is pressed and build the form data in
+                    javascript.</p>
+                <pre><code>&lt;script&gt;
+    Dropzone.options.fileUpload = {
+        url: '{% url 'posts' %}',
+        thumbnailWidth: 80,
+        thumbnailHeight: 80,
+        dictRemoveFile: "Remove",
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 20,
+        maxFiles: 20,
+        maxFilesize: 20,
+        acceptedFiles: ".jpeg,.jpg,.png,.gif",
+        addRemoveLinks: true,
+        init: function () {
+            dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
+
+            // for Dropzone to process the queue (instead of default form behavior):
+            document.getElementById("submit-all").addEventListener("click", function (e) {
+                // Make sure that the form isn't actually being sent.
+                e.preventDefault();
+                e.stopPropagation();
+                if (dzClosure.getQueuedFiles().length &gt; 0) {
+                    dzClosure.processQueue();
+                } else {
+                    console.log('ajax')
+                    $.ajax({
+                        url: {% url 'posts' %},
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            'body': jQuery("#post-form-body").val(),
+                            'csrfmiddlewaretoken': '{{csrf_token}}',
+                        },
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                        },
+                        success: function (result) {
+                            window.location.replace("{% url 'posts' %}");
+                        }
+                    });
+                }
+            });
+
+            //send all the form data along with the files:
+            this.on("sendingmultiple", function (data, xhr, formData) {
+                formData.append("body", jQuery("#post-form-body").val());
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            });
+
+            // On success refresh
+            this.on("success", function (file) {
+                window.location.replace("{% url 'posts' %}");
+            });
+        }
+    }
+&lt;/script&gt;
+</code></pre>
+                <p>I will try to expand on some of the details, but that's the bulk of it. Post a comment if you have
+                    any questions.</p>
+                <p></p>
+            </div>
+
+            <hr class="social-hr mt-5">
+
+            <div class="tag-margin mt-5">
+                <div class="row" style="display: flex; align-items: center;">
+                    <div class="col">
+
+                        <a class="link-no-underline" href="/blog/12">
+                            <div style="display: flex; align-items: center;">
+                                <span class="fa fa-chevron-left fa-3x"></span>
+                                <span class="ml-1" style="max-width: 300px"> Cache Django View with Redis </span>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="col">
+                        <div style="float: right">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container text-center mt-5 mb-5" style="margin-bottom: 5rem;" id="load_comments">
+                <a class="btn btn-secondary btn-xl sr-button" onclick="loadDisqus(); return false;">
+                    Load Comments
+                </a>
+            </div>
+
+            <div id="disqus_thread"></div>
+
+
+            <div class="tag-margin mt-5">
+                <h4>Similar Posts</h4>
+                <hr class="mb-5">
+
+                <div class="row">
+
+                    <div class="col-6 col-lg-3 col-xs-6 text-center mb-5">
+                        <a href="/blog/1">
+                            <div class="h-100">
+                                <img class="sim-img" src="/media/backgrounds/2018/08/05/markdownx_thumb_250x150.jpg"
+                                     alt="">
+                            </div>
+                            <div>
+                                <h5 style="max-width: 200px; text-align: center;" class="ml-auto mr-auto">
+                                    How to Use Django-Markdownx for Your Blog
+                                </h5>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-6 col-lg-3 col-xs-6 text-center mb-5">
+                        <a href="/blog/9">
+                            <div class="h-100">
+                                <img class="sim-img" src="/media/backgrounds/2020/04/21/gitlab_thumb_250x150.jpg"
+                                     alt="">
+                            </div>
+                            <div>
+                                <h5 style="max-width: 200px; text-align: center;" class="ml-auto mr-auto">
+                                    Django Docker Deployment with GitLab CI
+                                </h5>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-6 col-lg-3 col-xs-6 text-center mb-5">
+                        <a href="/blog/12">
+                            <div class="h-100">
+                                <img class="sim-img" src="/media/backgrounds/2020/05/04/redis_thumb_250x150.jpg" alt="">
+                            </div>
+                            <div>
+                                <h5 style="max-width: 200px; text-align: center;" class="ml-auto mr-auto">
+                                    Cache Django View with Redis
+                                </h5>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-6 col-lg-3 col-xs-6 text-center mb-5">
+                        <a href="/blog/7">
+                            <div class="h-100">
+                                <img class="sim-img"
+                                     src="/media/backgrounds/2020/07/28/progress-light_thumb_250x150.jpg" alt="">
+                            </div>
+                            <div>
+                                <h5 style="max-width: 200px; text-align: center;" class="ml-auto mr-auto">
+                                    Add a Processing Progress Bar to Your Site
+                                </h5>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="tag-margin">
+                <a href="/blog"> &lt; Back to Blog</a>
+            </div>
+
+            <div style="margin-bottom: 5rem;"></div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script type="text/javascript" async=""
+        src="https://www.googletagmanager.com/gtag/js?id=G-5L3DJCHTNL&amp;l=dataLayer&amp;cx=c"></script>
+<script>
+
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        var disqus_config = function () {
+            this.page.url = 'https://www.existenceundefined.com/blog/programming/13/django-multiple-image-upload-with-dropzonejs';
+            this.page.identifier = 'Django Multiple Image Upload with Dropzone.js - 13';
+            this.page.title = 'Django Multiple Image Upload with Dropzone.js';
+        };
+
+        function loadDisqus() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://existenceundefined.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            document.getElementById('load_comments').style.visibility = "hidden";
+            setTimeout(function () {
+                document.getElementById('load_comments').remove()
+            }, 1000);
+            setTimeout(function () {
+                var elmnt = document.getElementById("disqus_thread");
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: $("#disqus_thread").offset().top
+                }, 1000);
+            }, 2000);
+        }
+
+</script>
+<noscript>Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript"&gt;comments powered by
+    Disqus.&lt;/a&gt;
+</noscript>
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+<!-- Theme JavaScript -->
+<script src="/static/js/creative.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+
+<!--DEBUG-->
+
+
+<script src="/static/vendor/scrollreveal/scrollreveal.min.js"></script>
+
+
+<!-- Theme JavaScript -->
+
+
+<script>
+    $(function () {
+        $(document).click(function (event) {
+            $('.navbar-collapse').collapse('hide');
+        });
+    });
+
+</script>
+
+
+<script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("modal-image");
+        var captionText = document.getElementById("caption");
+
+        function imageModal() {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("img-close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
+
+        // When the user clicks on <span> (x), close the modal
+        modal.onclick = function () {
+            modal.style.display = "none";
+        };
+
+</script>
+
+<script>
+        var images = document.getElementsByTagName('img');
+        var ul = document.getElementsByTagName('ul');
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].src.includes("/media/markdownx")) {
+                images[i].classList.add("image-item");
+                images[i].addEventListener("click", imageModal);
+            }
+        }
+
+</script>
+
+
+<script>
+        $("#facebookShareLink").on("click", function () {
+            var fbpopup = window.open("https://www.facebook.com/sharer/sharer.php?u=https://www.existenceundefined.com/blog/13/&text=Django Multiple Image Upload with Dropzone.js&t=Django Multiple Image Upload with Dropzone.js", "pop", "width=600, height=400, scrollbars=no");
+            console.log('fb');
+            return false;
+        });
+
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-125665238-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-125665238-1');
+
+
+</script>
+
+
+</body>
+</html>
