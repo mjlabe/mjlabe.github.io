@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -6,9 +7,9 @@
 
 
     <meta name="description"
-          content="The easiest solution I have found to upload multiple images has been Dropzone.js. This is the second time I have implemented it in a Django app and I always end up customizing it a bit because I like ...">
+          content="There are some great Django pagination examples out there but none of them quite worked for me, so here's another one. If you are first starting out, pagination is &quot;the process of dividing a document ...">
     <meta name="author" content="Marc LaBelle">
-    <title>Django Multiple Image Upload with Dropzone.js - Existence Undefined Blog</title>
+    <title>Django Pagination with Bootstrap - Existence Undefined Blog</title>
 
 
     <!-- Bootstrap core CSS -->
@@ -102,11 +103,11 @@
 </nav>
 
 <input type="hidden" name="csrfmiddlewaretoken"
-       value="tU4Q5ThWBBZB9iEIKtJmPjKIejoAs7pkNRGsWzJhlJFmyqGoqE64RqEFcy41ZPTF">
+       value="ow860vImVdncfhQNZHoRnY3PBLosiJ5GLVtUGIlxEFArNNLIIPBpAPfFsiI50iZ8">
 
 
 <input type="hidden" name="csrfmiddlewaretoken"
-       value="tU4Q5ThWBBZB9iEIKtJmPjKIejoAs7pkNRGsWzJhlJFmyqGoqE64RqEFcy41ZPTF">
+       value="ow860vImVdncfhQNZHoRnY3PBLosiJ5GLVtUGIlxEFArNNLIIPBpAPfFsiI50iZ8">
 
 <link href="/static/css/image-viewer.css?v=1.0.5" rel="stylesheet">
 
@@ -114,7 +115,7 @@
 
         .masthead-image {
             background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
-            url(/media/backgrounds/dropzone-bg.jpg);
+            url(/media/backgrounds/2020/07/28/django_pagination-lightish.jpg);
         }
 
 
@@ -247,7 +248,7 @@
         .sim-img {
             margin-bottom: 1rem;
         }
-
+    
 </style>
 
 <header class="masthead masthead-image text-center text-white d-flex" id="mastheadPic">
@@ -255,7 +256,7 @@
         <div class="row">
             <div class="col-lg-10 mx-auto">
                 <h1 style="font-family: 'Fira Code', Impact, sans-serif">
-                    Django Multiple Image Upload with Dropzone.js
+                    Django Pagination with Bootstrap
                 </h1>
             </div>
         </div>
@@ -266,7 +267,7 @@
 
     <div class="row no-gutters tag-margin social-margin">
         <div class="col-6">
-            <p class="text-muted mt-1">Oct 16, 2020</p>
+            <p class="text-muted mt-1">May 04, 2020</p>
         </div>
         <div class="col-6 social text-right">
             <a class="link-no-underline" href="" id="facebookShareLink">
@@ -277,7 +278,7 @@
             </a>
 
             <a class="link-no-underline"
-               href="https://twitter.com/share?url=https://www.existenceundefined.com/blog/13/&amp;text=Django Multiple Image Upload with Dropzone.js">
+               href="https://twitter.com/share?url=http://localhost:8001/blog/11/&amp;text=Django Pagination with Bootstrap">
                 <span class="fa-stack fa-1x">
                     <i class="fas fa-circle fa-stack-2x" style="color: #1da1f2"></i>
                     <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
@@ -285,7 +286,7 @@
             </a>
 
             <a class="link-no-underline"
-               href="http://www.reddit.com/submit?url=https://www.existenceundefined.com/blog/13/&amp;title=Django Multiple Image Upload with Dropzone.js">
+               href="http://www.reddit.com/submit?url=http://localhost:8001/blog/11/&amp;title=Django Pagination with Bootstrap">
                 <span class="fa-stack fa-1x">
                     <i class="fas fa-circle fa-stack-2x" style="color: #ff4500"></i>
                     <i class="fab fa-reddit fa-stack-1x fa-inverse"></i>
@@ -313,14 +314,6 @@
                 <a href="/blog/?q=Python"><span class="badge badge-secondary">Python</span></a>
             </li>
 
-            <li>
-                <a href="/blog/?q=Javascript"><span class="badge badge-secondary">Javascript</span></a>
-            </li>
-
-            <li>
-                <a href="/blog/?q=AJAX"><span class="badge badge-secondary">AJAX</span></a>
-            </li>
-
         </ul>
     </div>
 
@@ -341,218 +334,138 @@
         <div>
             <div id="blog">
                 <p class="card-text" id="post"></p>
-                <p>The easiest solution I have found to upload multiple images has been Dropzone.js. This is the second
-                    time I have implemented it in a Django app and I always end up customizing it a bit because I like
-                    the idea of only uploading when the user hits "submit." It's relatively straightforward, but
-                    required a bit of work in Django, JavaScript (jQuery here), HTML, and CSS.</p>
-                <h2>The Photo model:</h2>
-                <pre><code>class Photo(ObjUserRelation):
-    photo = models.ImageField(upload_to=saved_image_path)
-    photo_compressed = models.ImageField(upload_to=saved_thumb_path, editable=False)
-    thumbnail = models.ImageField(upload_to=saved_thumb_path, editable=False)
+                <p>There are some great Django pagination examples out there but none of them quite worked for me, so
+                    here's another one. If you are first starting out, pagination is "the process of dividing a document
+                    into discrete pages, either electronic pages or printed pages." The From the <a
+                            href="https://docs.djangoproject.com/en/3.0/topics/pagination">official Django
+                        documentation</a>, to <a
+                            href="https://simpleisbetterthancomplex.com/tutorial/2016/08/03/how-to-paginate-with-django.html">Simple
+                        Is Better Than Complex</a>, I was able to get the basics, but none worked perfectly. <a
+                            href="https://medium.com/@sumitlni/paginate-properly-please-93e7ca776432">This Medium blog
+                        post by sumitlni</a> has a great solution but I had some issues with it.</p>
+                <p>This is how I render my blog list page:</p>
+                <pre><code>def blog_posts(request, subject=None):
+    """Display all blog posts"""
 
-    def save(self, *args, **kwargs):
+    if subject:
+        qs = BlogPost.objects.filter(subject__subject=subject, published=True)
+    else:
+        qs = BlogPost.objects.filter(published=True)
 
-        if not self.make_thumbnail():
-            # set to a default thumbnail
-            raise Exception('Could not create thumbnail - is the file type valid?')
+    subjects = Subject.objects.all()
 
-        if not self.make_thumbnail(small=True):
-            # set to a default thumbnail
-            raise Exception('Could not create thumbnail - is the file type valid?')
+    keywords = request.GET.get('q', None)
 
-        super(Photo, self).save(*args, **kwargs)
-
-    def make_thumbnail(self, small=False):
-        return make_thumbnail(self, small)
-</code></pre>
-                <p>I am setting custom locations for the files with:</p>
-                <pre><code>def saved_directory_path(instance, filename, root):
-    now_time = datetime.now()
-    current_day = now_time.day
-    current_month = now_time.month
-    current_year = now_time.year
-    return '{root}/{year}/{month}/{day}/{user}/{random}/{filename}'.format(root=root,
-                                                                           year=current_year,
-                                                                           month=current_month,
-                                                                           day=current_day,
-                                                                           user=instance.user.username,
-                                                                           random=get_random_string(),
-                                                                           filename=filename, )
-
-
-def saved_image_path(instance, filename):
-    return saved_directory_path(instance, filename, 'profile/images')
-
-
-def saved_thumb_path(instance, filename):
-    return saved_directory_path(instance, filename, 'profile/thumbs')
-</code></pre>
-                <p>To create thumbnails (for quicker loading), I am using Pillow (<code>pip install Pillow</code>) and
-                    call <code>make_thumbnail</code> in <code>Photo</code>'s <code>save</code> method:</p>
-                <pre><code>def make_thumbnail(self, small=False):
-    thumb_name, thumb_extension = os.path.splitext(self.photo.name)
-    thumb_extension = thumb_extension.lower()
-
-    image = Image.open(self.photo)
-
-    if small:
-        image.thumbnail(settings.THUMB_SIZE, Image.ANTIALIAS)
-        thumb_filename = thumb_name + '_thumb' + thumb_extension
+    if keywords:
+        query = SearchQuery(keywords)
+        title_vector = SearchVector('title', weight='A')
+        tag_vector = SearchVector(StringAgg('tag__tag', delimiter=' '), weight='B')
+        content_vector = SearchVector('body', weight='C')
+        vectors = title_vector + tag_vector + content_vector
+        qs = qs.annotate(search=vectors).filter(search=query).distinct()
+        posts = qs.annotate(rank=SearchRank(vectors, query)).distinct().order_by('-rank')
 
     else:
-        image.thumbnail((700, 700), Image.ANTIALIAS)
-        thumb_filename = thumb_name + '_compressed' + thumb_extension
+        posts = qs.order_by('-created_date')
 
-    if thumb_extension in ['.jpg', '.jpeg']:
-        FTYPE = 'JPEG'
-    elif thumb_extension == '.gif':
-        FTYPE = 'GIF'
-    elif thumb_extension == '.png':
-        FTYPE = 'PNG'
-    else:
-        return False  # Unrecognized file type
+    paginator = Paginator(posts, 20)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
 
-    # Save thumbnail to in-memory file as StringIO
-    temp_thumb = BytesIO()
-    image.save(temp_thumb, FTYPE, quality=70)
-    temp_thumb.seek(0)
-
-    if small:
-        # set save=False, otherwise it will run in an infinite loop
-        self.thumbnail.save(thumb_filename, ContentFile(temp_thumb.read()), save=False)
-    else:
-        self.photo_compressed.save(thumb_filename, ContentFile(temp_thumb.read()), save=False)
-    temp_thumb.close()
-
-    return True
+    return render(request, 'blog.html', {'page_obj': page_obj, 'keywords': keywords, 'subjects': subjects, })
 </code></pre>
-                <h2>The View:</h2>
-                <p>The website I created is basically a social media site like Facebook, so I am uploading the images in
-                    the post request when the user creates a post:</p>
-                <pre><code>class Posts(LoginRequiredMixin, views.APIView):
-    http_method_names = ['get', 'post', 'delete']
+                <p>Here, I set the paginator to 20 posts and get the requested page:</p>
+                <pre><code>...
+paginator = Paginator(posts, 20)
+page_number = request.GET.get('page', 1)
+page_obj = paginator.get_page(page_number)
 
-    def post(self, request):
-        body = request.POST.get('body', "")
-        images = request.FILES.get('file[0]', None)
-
-        if body or images:
-            author = request.user
-            post = SocialMediaPost()
-            post.body = body
-            post.author = author
-            post.datetime_created = timezone.now()
-            post.save()
-
-            files = [request.FILES.get('file[%d]' % i) for i in range(0, len(request.FILES))]
-
-            for image in files:
-                photo = Photo(photo=image, user=request.user, obj_type='post', obj_id=post.pk)
-                photo.save()
-
-        return JsonResponse({'message': 'Post created'}, status=200)
+return render(request, 'blog.html', {'page_obj': page_obj, 'keywords': keywords, 'subjects': subjects, })
 </code></pre>
-                <p>If <code>files = [request.FILES.get('file[%d]' % i) for i in range(0, len(request.FILES))]</code>
-                    looks a bit strange, that's because of the way Dropzone.js submits the form data. it took me some
-                    trial, error, and a lot of debugging to figure out the format.</p>
-                <h2>The template:</h2>
-                <p>My post form is relatively simple; a textarea, the dropzone button, and the submit button. Now that I
-                    think of it, I'm not sure if drag and drop works, but you can ignore my customization with the font
-                    awesome icon and use the default if you want that.</p>
-                <pre><code>    &lt;div class="container post-container pt-1"&gt;
-
-        &lt;div class="card shadow bg-white mt-3 mb-3"&gt;
-            &lt;div class="card-body"&gt;
-                &lt;form action="{% url 'posts' %}" method="POST" class="post-form" enctype="multipart/form-data"
-                      id="post-form"&gt;{% csrf_token %}
-                    &lt;textarea class="form-control" placeholder="What's going on?" id="post-form-body"
-                              name="body"&gt;&lt;/textarea&gt;
-                    &lt;div class="row pt-3"&gt;
-                        &lt;div class="col align-middle"&gt;
-                            &lt;div class="dropzone dropzone-file-area" id="fileUpload"&gt;
-                                &lt;div class="dz-default dz-message"&gt;
-                                    &lt;span id="images" class="far fa-images mb-3" data-toggle="tooltip"
-                                          title="Add Photos"&gt;&lt;/span&gt;
-                                &lt;/div&gt;
-                            &lt;/div&gt;
-                            &lt;input id="images" name="file" type="file" multiple hidden="hidden"&gt;
-                        &lt;/div&gt;
-                        &lt;div class="col-1 ml-auto"&gt;
-                            &lt;button id="submit-all" type="submit" class="save btn btn-primary float-right"&gt;Submit
-                            &lt;/button&gt;
-                        &lt;/div&gt;
-                    &lt;/div&gt;
-                &lt;/form&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
+                <p>Next, the required Bootstrap HTML. I am only showing the pagination if there is more than 1 page with
+                    <code>{% if page_obj.paginator.num_pages &gt; 1 %}</code> and then I am loading the custom
+                    pagination tags <code>url_replace</code> and <code>proper_paginate</code> that I will describe below
+                    with <code>{% load pagination %}</code>. The rest is semi-custom styling, so please ask any
+                    questions if something doesn't make sense. Here is the completed Bootstrap pagination:</p>
+                <pre><code>{% if page_obj.paginator.num_pages &gt; 1 %}
+    {% load pagination %}
+    &lt;ul class="mt-3 pagination justify-content-center"&gt;
+        {% if page_obj.number != 1 %}
+            &lt;li&gt;&lt;a class="page-link" href="?{% url_replace request 'page' 1 %}"&gt;⇤&lt;/a&gt;&lt;/li&gt;
+        {% endif %}
+        {% if page_obj.has_previous %}
+            &lt;li&gt;&lt;a class="page-link"
+                   href="?{% url_replace request 'page' page_obj.previous_page_number %}"&gt;&amp;laquo;&lt;/a&gt;
+            &lt;/li&gt;
+        {% endif %}
+        {% for i in page_obj.paginator|proper_paginate:page_obj.number %}
+            {% if page_obj.number == i %}
+                &lt;li class="page-item active"&gt;&lt;a class="page-link"
+                                                href="?{% url_replace request 'page' i %}"&gt;{{ i }}&lt;/a&gt;
+                &lt;/li&gt;
+            {% else %}
+                &lt;li class="page-item"&gt;&lt;a class="page-link"
+                                         href="?{% url_replace request 'page' i %}"&gt;{{ i }}&lt;/a&gt;&lt;/li&gt;
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            &lt;li&gt;&lt;a class="page-link" href="?{% url_replace request 'page' page_obj.next_page_number %}"&gt;&amp;raquo;&lt;/a&gt;
+            &lt;/li&gt;
+        {% endif %}
+        {% if page_obj.number != page_obj.paginator.num_pages %}
+            &lt;li&gt;&lt;a class="page-link"
+                   href="?{% url_replace request 'page' page_obj.paginator.num_pages %}"&gt;⇥&lt;/a&gt;&lt;/li&gt;
+        {% endif %}
+    &lt;/ul&gt;
+{% endif %}
 </code></pre>
-                <h2>The Script</h2>
-                <p>Dropzone by default uploads asynchronously as the user adds photos. That's cool, but harder to deal
-                    with (what if they don't create the post, how do I keep track of the relationship to the post?), so
-                    I decided to upload the images with the post. That unfortunately means I need to prevent default
-                    action (<code>.preventDefault()</code>) when the submit button is pressed and build the form data in
-                    javascript.</p>
-                <pre><code>&lt;script&gt;
-    Dropzone.options.fileUpload = {
-        url: '{% url 'posts' %}',
-        thumbnailWidth: 80,
-        thumbnailHeight: 80,
-        dictRemoveFile: "Remove",
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 20,
-        maxFiles: 20,
-        maxFilesize: 20,
-        acceptedFiles: ".jpeg,.jpg,.png,.gif",
-        addRemoveLinks: true,
-        init: function () {
-            dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
+                <p>Finally, the custom pagination tags as described by <a
+                        href="https://medium.com/@sumitlni/paginate-properly-please-93e7ca776432">sumitlni</a>
+                    "calculates the start and end indices" and "generates the proper URL based on which page number we
+                    wish to go to":</p>
+                <pre><code>from django import template
 
-            // for Dropzone to process the queue (instead of default form behavior):
-            document.getElementById("submit-all").addEventListener("click", function (e) {
-                // Make sure that the form isn't actually being sent.
-                e.preventDefault();
-                e.stopPropagation();
-                if (dzClosure.getQueuedFiles().length &gt; 0) {
-                    dzClosure.processQueue();
-                } else {
-                    console.log('ajax')
-                    $.ajax({
-                        url: {% url 'posts' %},
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            'body': jQuery("#post-form-body").val(),
-                            'csrfmiddlewaretoken': '{{csrf_token}}',
-                        },
-                        beforeSend: function (xhr) {
-                            xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
-                        },
-                        success: function (result) {
-                            window.location.replace("{% url 'posts' %}");
-                        }
-                    });
-                }
-            });
+register = template.Library()
 
-            //send all the form data along with the files:
-            this.on("sendingmultiple", function (data, xhr, formData) {
-                formData.append("body", jQuery("#post-form-body").val());
-                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-            });
 
-            // On success refresh
-            this.on("success", function (file) {
-                window.location.replace("{% url 'posts' %}");
-            });
-        }
-    }
-&lt;/script&gt;
+@register.filter(name='proper_paginate')
+def proper_paginate(paginator, current_page, neighbors=2):
+    if paginator.num_pages &gt; 2 * neighbors:
+        start_index = max(1, current_page - neighbors)
+        end_index = min(paginator.num_pages, current_page + neighbors)
+        if end_index &lt; start_index + 2 * neighbors:
+            end_index = start_index + 2 * neighbors
+        elif start_index &gt; end_index - 2 * neighbors:
+            start_index = end_index - 2 * neighbors
+        if start_index &lt; 1:
+            end_index -= start_index
+            start_index = 1
+        elif end_index &gt; paginator.num_pages:
+            start_index -= (end_index - paginator.num_pages)
+            end_index = paginator.num_pages
+        page_list = [f for f in range(start_index, end_index + 1)]
+        return page_list[:(2 * neighbors + 1)]
+    return paginator.page_range
+
+
+@register.simple_tag
+def url_replace(request, field, value):
+    query_string = request.GET.copy()
+    query_string[field] = value
+
+    return query_string.urlencode()
 </code></pre>
-                <p>I will try to expand on some of the details, but that's the bulk of it. Post a comment if you have
-                    any questions.</p>
+                <p>The issues I had with the code and blog post above were:</p>
+                <p>1) I put them both in a single file called <code>pagination.py</code></p>
+                <p>2) I didn't put it in a sub-directory named <code>templatetags</code></p>
+                <blockquote>
+                    <p>Note, thanks to <a
+                            href="https://stackoverflow.com/questions/40686201/django-1-10-1-my-templatetag-is-not-a-registered-tag-library-must-be-one-of">this
+                        question at Stack Overflow</a></p>
+                </blockquote>
+                <p>After changing <code>{% load filter_method_name %}</code> to <code>{% load filename %}</code> and
+                    moving <code>pagination.py</code> to a folder named <code>templatetags</code> at the same level as
+                    my apps models.py, it worked!</p>
                 <p></p>
             </div>
 
@@ -562,16 +475,24 @@ def saved_thumb_path(instance, filename):
                 <div class="row" style="display: flex; align-items: center;">
                     <div class="col">
 
-                        <a class="link-no-underline" href="/blog/12">
+                        <a class="link-no-underline" href="/blog/9">
                             <div style="display: flex; align-items: center;">
                                 <span class="fa fa-chevron-left fa-3x"></span>
-                                <span class="ml-1" style="max-width: 300px"> Cache Django View with Redis </span>
+                                <span class="ml-1"
+                                      style="max-width: 300px"> Django Docker Deployment with GitLab CI </span>
                             </div>
                         </a>
 
                     </div>
                     <div class="col">
                         <div style="float: right">
+
+                            <a class="link-no-underline" href="/blog/12">
+                                <div style="display: flex; align-items: center;">
+                                    <span class="mr-1" style="text-align: right; max-width: 300px;"> Cache Django View with Redis </span>
+                                    <span class="fa fa-chevron-right fa-3x"></span>
+                                </div>
+                            </a>
 
                         </div>
                     </div>
@@ -585,71 +506,6 @@ def saved_thumb_path(instance, filename):
             </div>
 
             <div id="disqus_thread"></div>
-
-
-            <div class="tag-margin mt-5">
-                <h4>Similar Posts</h4>
-                <hr class="mb-5">
-
-                <div class="row">
-
-                    <div class="col-6 col-lg-3 col-xs-6 text-center mb-5">
-                        <a href="/blog/1">
-                            <div class="h-100">
-                                <img class="sim-img" src="/media/backgrounds/markdownx_thumb_250x150.jpg"
-                                     alt="">
-                            </div>
-                            <div>
-                                <h5 style="max-width: 200px; text-align: center;" class="ml-auto mr-auto">
-                                    How to Use Django-Markdownx for Your Blog
-                                </h5>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-6 col-lg-3 col-xs-6 text-center mb-5">
-                        <a href="/blog/9">
-                            <div class="h-100">
-                                <img class="sim-img" src="/media/backgrounds/gitlab_thumb_250x150.jpg"
-                                     alt="">
-                            </div>
-                            <div>
-                                <h5 style="max-width: 200px; text-align: center;" class="ml-auto mr-auto">
-                                    Django Docker Deployment with GitLab CI
-                                </h5>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-6 col-lg-3 col-xs-6 text-center mb-5">
-                        <a href="/blog/cache-django-view-with-redis">
-                            <div class="h-100">
-                                <img class="sim-img" src="/media/backgrounds/redis_thumb_250x150.jpg" alt="">
-                            </div>
-                            <div>
-                                <h5 style="max-width: 200px; text-align: center;" class="ml-auto mr-auto">
-                                    Cache Django View with Redis
-                                </h5>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-6 col-lg-3 col-xs-6 text-center mb-5">
-                        <a href="/blog/7">
-                            <div class="h-100">
-                                <img class="sim-img"
-                                     src="/media/backgrounds/progress-light_thumb_250x150.jpg" alt="">
-                            </div>
-                            <div>
-                                <h5 style="max-width: 200px; text-align: center;" class="ml-auto mr-auto">
-                                    Add a Processing Progress Bar to Your Site
-                                </h5>
-                            </div>
-                        </a>
-                    </div>
-
-                </div>
-            </div>
 
 
             <div class="tag-margin">
@@ -671,9 +527,9 @@ def saved_thumb_path(instance, filename):
          *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
          *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
         var disqus_config = function () {
-            this.page.url = 'https://www.existenceundefined.com/blog/programming/13/django-multiple-image-upload-with-dropzonejs';
-            this.page.identifier = 'Django Multiple Image Upload with Dropzone.js - 13';
-            this.page.title = 'Django Multiple Image Upload with Dropzone.js';
+            this.page.url = 'http://localhost:8001/blog/programming/11/django-pagination-with-bootstrap';
+            this.page.identifier = 'Django Pagination with Bootstrap - 11';
+            this.page.title = 'Django Pagination with Bootstrap';
         };
 
         function loadDisqus() { // DON'T EDIT BELOW THIS LINE
@@ -692,7 +548,7 @@ def saved_thumb_path(instance, filename):
                 }, 1000);
             }, 2000);
         }
-
+    
 </script>
 <noscript>Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript"&gt;comments powered by
     Disqus.&lt;/a&gt;
@@ -756,7 +612,7 @@ def saved_thumb_path(instance, filename):
         modal.onclick = function () {
             modal.style.display = "none";
         };
-
+    
 </script>
 
 <script>
@@ -768,17 +624,17 @@ def saved_thumb_path(instance, filename):
                 images[i].addEventListener("click", imageModal);
             }
         }
-
+    
 </script>
 
 
 <script>
         $("#facebookShareLink").on("click", function () {
-            var fbpopup = window.open("https://www.facebook.com/sharer/sharer.php?u=https://www.existenceundefined.com/blog/13/&text=Django Multiple Image Upload with Dropzone.js&t=Django Multiple Image Upload with Dropzone.js", "pop", "width=600, height=400, scrollbars=no");
+            var fbpopup = window.open("https://www.facebook.com/sharer/sharer.php?u=http://localhost:8001/blog/11/&text=Django Pagination with Bootstrap&t=Django Pagination with Bootstrap", "pop", "width=600, height=400, scrollbars=no");
             console.log('fb');
             return false;
         });
-
+    
 </script>
 
 

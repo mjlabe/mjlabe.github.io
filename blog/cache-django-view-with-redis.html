@@ -1,0 +1,593 @@
+<html lang="en"><head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+
+    <meta name="description" content="If you have views in your application that rarely change, this is a great opportunity to cache them to reduce response times. Caching your Django view will reduce unnecessary database calls and templa...">
+    <meta name="author" content="Marc LaBelle">
+    <title>Cache Django View with Redis - Existence Undefined Blog</title>
+
+
+
+    <!-- Bootstrap core CSS -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <!-- Custom Fonts -->
+
+    <link href="https://fonts.googleapis.com/css?family=Monoton|Anton|Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet">
+
+
+
+    <link href="/static/vendor/icomoon/style.css" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+
+    <!--DEBUG-->
+    <!-- Bootstrap core CSS -->
+
+
+    <!-- Custom Fonts -->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+    <link href="/static/vendor/icomoon/style.css" rel="stylesheet" type="text/css">
+
+
+
+
+    <!-- Plugin CSS -->
+
+
+
+    <!-- Theme CSS -->
+
+    <link href="/static/css/creative.css?v=1.0.4" rel="stylesheet">
+    <link href="/static/css/theme.css?v=1.0.6" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/img/favicon_io/site.webmanifest">
+</head>
+
+<body id="page-top">
+
+<div id="mobile-indicator"></div>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-shrink" id="mainNav">
+    <div class="container-fluid">
+        <a class="navbar-brand js-scroll-trigger" href="">
+
+            <i class="icon-logo-sm fa-sm"></i>
+        </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item mobile-mt-2">
+                    <a class="nav-link js-scroll-trigger" href="/blog">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/music">Music</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/web-design">Web</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/audio-engineering">Audio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/resume">Resume</a>
+                </li>
+                <li class="nav-item mobile-mb-2">
+                    <a class="nav-link js-scroll-trigger" href="/#contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<input type="hidden" name="csrfmiddlewaretoken" value="8TyZkFMz5MVzLiTrgMv4mPvnBhuYPvkkviTN0SpKOe8OjOOmZUICzGHdsOOBx4eM">
+
+
+
+    <input type="hidden" name="csrfmiddlewaretoken" value="8TyZkFMz5MVzLiTrgMv4mPvnBhuYPvkkviTN0SpKOe8OjOOmZUICzGHdsOOBx4eM">
+
+    <link href="/static/css/image-viewer.css?v=1.0.5" rel="stylesheet">
+
+    <style>
+
+        .masthead-image {
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+            url(/media/backgrounds/2020/05/04/redis.jpg);
+        }
+
+
+        @media (max-width: 1400px) {
+            body {
+                background-color: #fff !important;
+            }
+
+            .card {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            #blog, #disqus_thread, .tag-margin {
+                padding: 0;
+                margin-left: 1rem!important;
+                margin-right: 1rem!important;
+                margin-bottom: 0;
+            }
+
+            #tags, .tag-margin {
+                margin-bottom: 0 !important;
+            }
+
+            .social-hr {
+                margin-left: 1rem !important;
+                margin-right: 1rem !important;
+            }
+        }
+
+        body {
+            background-color: #f9f9f9;
+        }
+
+        #blog ul li {
+            list-style-type: disc;
+            display: list-item;
+        }
+
+        .btn-secondary {
+            color: #fff !important;
+            background-color: var(--color-primary-2, black);
+            border-color: var(--color-primary-2, black);
+        }
+
+        #blog, #disqus_thread, .tag-margin {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag-margin ul {
+            -webkit-padding-start: 0;
+        }
+
+        #tags li {
+            display: inline;
+        }
+
+        pre {
+            line-height: 1.2em;
+            background-color: #e6e6e6;
+            background-size: 2.4em 2.4em;
+            background-origin: content-box;
+
+            /* some extra styles*/
+            padding: 10px 20px;
+            text-align: justify;
+            font-family: calibri, arial, sans-serif;
+        }
+
+        img {
+            display: block;
+            max-width: 80%;
+            max-height: 60vh;
+            height: auto;
+            width: auto;
+            box-shadow: 0.1rem 0.1rem .3rem 0.1rem rgba(0, 0, 0, 0.15) !important;
+            margin-bottom: 2rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 992px) {
+            header.masthead {
+                height: 100% !important;
+            }
+        }
+
+        #content {
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card {
+            padding: 30px;
+            box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.05);
+            margin-bottom: 4rem;
+            border: none;
+            border-radius: 0;
+        }
+
+        blockquote {
+            color: #777;
+            margin-left: 2px;
+            padding-left: 10px;
+            border-left: 5px solid #ddd;
+        }
+
+        hr {
+            max-width: unset;
+            border-width: 1px;
+            border-color: lightgray;
+            margin: 0;
+        }
+
+        .link-no-underline {
+            text-decoration: none !important;
+        }
+
+        .social-hr {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .social-margin {
+            margin-bottom: 0 !important;
+        }
+
+        .sim-img {
+            margin-bottom: 1rem;
+        }
+    </style>
+
+    <header class="masthead masthead-image text-center text-white d-flex" id="mastheadPic">
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <h1 style="font-family: 'Fira Code', Impact, sans-serif">
+                        Cache Django View with Redis
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="content">
+
+        <div class="row no-gutters tag-margin social-margin">
+            <div class="col-6">
+                <p class="text-muted mt-1">Jun 10, 2020</p>
+            </div>
+            <div class="col-6 social text-right">
+                <a class="link-no-underline" href="" id="facebookShareLink">
+                <span class="fa-stack fa-1x">
+                    <i class="fas fa-circle fa-stack-2x" style="color: #3b5998"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                </span>
+                </a>
+
+                <a class="link-no-underline" href="https://twitter.com/share?url=http://localhost:8001/blog/12/&amp;text=Cache Django View with Redis">
+                <span class="fa-stack fa-1x">
+                    <i class="fas fa-circle fa-stack-2x" style="color: #1da1f2"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                </a>
+
+                <a class="link-no-underline" href="http://www.reddit.com/submit?url=http://localhost:8001/blog/12/&amp;title=Cache Django View with Redis">
+                <span class="fa-stack fa-1x">
+                    <i class="fas fa-circle fa-stack-2x" style="color: #ff4500"></i>
+                    <i class="fab fa-reddit fa-stack-1x fa-inverse"></i>
+                </span>
+                </a>
+
+            </div>
+
+        </div>
+
+        <hr class="social-hr">
+
+        <div class="tag-margin">
+            <ul id="tags">
+
+                    <li>
+                        <a href="/blog/?q=Django"><span class="badge badge-secondary">Django</span></a>
+                    </li>
+
+                    <li>
+                        <a href="/blog/?q=Python"><span class="badge badge-secondary">Python</span></a>
+                    </li>
+
+                    <li>
+                        <a href="/blog/?q=Docker"><span class="badge badge-secondary">Docker</span></a>
+                    </li>
+
+            </ul>
+        </div>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+            <!-- The Close Button -->
+            <span class="img-close">×</span>
+
+            <!-- Modal Content (The Image) -->
+            <img class="modal-content" id="modal-image">
+
+            <!-- Modal Caption (Image Text) -->
+            <div id="caption"></div>
+        </div>
+
+        <div class="card mb-5">
+            <div>
+                <div id="blog">
+                    <p class="card-text" id="post"> </p><p>If you have views in your application that rarely change, this is a great opportunity to cache them to reduce response times. Caching your Django view will reduce unnecessary database calls and template rendering.</p>
+<p>The first step is configuring Redis. With Docker, it's as easy as adding it to your docker-compose file and updating some settings. Make sure you add the environment variable for Redis like the following:</p>
+<p><code>ENT_REDIS_LOCATION=redis://redis:6379</code></p>
+<p><strong>docker-compose.yml:</strong></p>
+<pre><code>version: '3'
+
+services:
+  web:
+    image: example:latest
+    command: python manage.py runserver 0.0.0.0:8007
+    volumes:
+      - .:/src
+    ports:
+      - "8007:8007"
+    depends_on:
+      - redis
+    environment:
+      - DJANGO_SETTINGS_MODULE=example.settings
+      - ENT_REDIS_LOCATION=redis://redis:6379
+
+  redis:
+    image: "redis:alpine"
+    restart: always
+</code></pre>
+<p>Next, add Redis caching to settings.</p>
+<p><strong>settings.py:</strong></p>
+<pre><code>CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        "LOCATION": os.getenv('ENT_REDIS_LOCATION', 'redis://127.0.0.1:6379'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "SOCKET_CONNECT_TIMEOUT": 10,
+            "SOCKET_TIMEOUT": 10,
+        }
+    },
+}
+
+SESSION_EXPIRATION = 10 * 60     # x * 60 seconds
+</code></pre>
+<blockquote>
+<p>Note, instead of using environment variables you could add <code>redis://redis:6379</code> to <code>LOCATION</code> here.</p>
+</blockquote>
+<p>Finally, add <code>redis</code> and <code>django-redis</code> to <code>requirements.txt</code> and pip install them.</p>
+<p>Now everything is configured to cache your views and this is the easy part. To cache a view, simple add a <code>@cache_page()</code> decorator.</p>
+<p><strong>views.py:</strong></p>
+<pre><code>from django.views.decorators.cache import cache_page
+
+from example import settings
+
+from my_example import Example
+
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', settings.SESSION_EXPIRATION)
+
+
+class ExampleViewSet(View):
+    @staticmethod
+    @cache_page(CACHE_TTL)
+    def get(request):
+        data = Example()
+        data.get_get_example()
+        return render(request, 'example.html', {'data': example.result()})
+</code></pre>
+<blockquote>
+<p>Note <code>CACHE_TTL</code>/<code>SESSION_EXPIRATION</code> is in ms and can be defined anywhere.</p>
+</blockquote>
+<p>After a quick <code>docker build -t $(CONTAINER_NAME) .</code> and <code>docker-compose up</code>, you should be good to go.</p>
+<p>That's it folks. Your view is now cached. Enjoy those free CPU cycles.</p> <p></p>
+                </div>
+
+                <hr class="social-hr mt-5">
+
+                <div class="tag-margin mt-5">
+                    <div class="row" style="display: flex; align-items: center;">
+                        <div class="col">
+
+                                <a class="link-no-underline" href="/blog/11">
+                                    <div style="display: flex; align-items: center;">
+                                        <span class="fa fa-chevron-left fa-3x"></span>
+                                        <span class="ml-1" style="max-width: 300px"> Django Pagination with Bootstrap </span>
+                                    </div>
+                                </a>
+
+                        </div>
+                        <div class="col">
+                            <div style="float: right">
+
+                                    <a class="link-no-underline" href="/blog/13">
+                                        <div style="display: flex; align-items: center;">
+                                            <span class="mr-1" style="text-align: right; max-width: 300px;"> Django Multiple Image Upload with Dropzone.js </span>
+                                            <span class="fa fa-chevron-right fa-3x"></span>
+                                        </div>
+                                    </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container text-center mt-5 mb-5" style="margin-bottom: 5rem;" id="load_comments">
+                    <a class="btn btn-secondary btn-xl sr-button" onclick="loadDisqus(); return false;">
+                        Load Comments
+                    </a>
+                </div>
+
+                <div id="disqus_thread"></div>
+
+
+
+                <div class="tag-margin">
+                    <a href="/blog"> &lt; Back to Blog</a>
+                </div>
+
+                <div style="margin-bottom: 5rem;"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-5L3DJCHTNL&amp;l=dataLayer&amp;cx=c"></script><script>
+
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        var disqus_config = function () {
+            this.page.url = 'http://localhost:8001/blog/programming/12/cache-django-view-with-redis';
+            this.page.identifier = 'Cache Django View with Redis - 12';
+            this.page.title = 'Cache Django View with Redis';
+        };
+
+        function loadDisqus() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://existenceundefined.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            document.getElementById('load_comments').style.visibility = "hidden";
+            setTimeout(function () {
+                document.getElementById('load_comments').remove()
+            }, 1000);
+            setTimeout(function () {
+                var elmnt = document.getElementById("disqus_thread");
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: $("#disqus_thread").offset().top
+                }, 1000);
+            }, 2000);
+        }
+    </script>
+    <noscript>Please enable JavaScript to view the &lt;a href="https://disqus.com/?ref_noscript"&gt;comments powered by
+        Disqus.&lt;/a&gt;</noscript>
+
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+<!-- Theme JavaScript -->
+<script src="/static/js/creative.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+
+<!--DEBUG-->
+
+
+
+
+
+<script src="/static/vendor/scrollreveal/scrollreveal.min.js"></script>
+
+
+<!-- Theme JavaScript -->
+
+
+
+
+<script>
+    $(function () {
+        $(document).click(function (event) {
+            $('.navbar-collapse').collapse('hide');
+        });
+    });
+</script>
+
+
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("modal-image");
+        var captionText = document.getElementById("caption");
+
+        function imageModal() {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("img-close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
+
+        // When the user clicks on <span> (x), close the modal
+        modal.onclick = function () {
+            modal.style.display = "none";
+        };
+    </script>
+
+    <script>
+        var images = document.getElementsByTagName('img');
+        var ul = document.getElementsByTagName('ul');
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].src.includes("/media/markdownx")) {
+                images[i].classList.add("image-item");
+                images[i].addEventListener("click", imageModal);
+            }
+        }
+    </script>
+
+
+    <script>
+        $("#facebookShareLink").on("click", function () {
+            var fbpopup = window.open("https://www.facebook.com/sharer/sharer.php?u=http://localhost:8001/blog/12/&text=Cache Django View with Redis&t=Cache Django View with Redis", "pop", "width=600, height=400, scrollbars=no");
+            console.log('fb');
+            return false;
+        });
+    </script>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-125665238-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-125665238-1');
+
+</script>
+
+
+
+
+</body></html>
